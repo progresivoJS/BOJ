@@ -33,6 +33,8 @@ public class Main
         if (count < 2)
             result = Math.max(result, alchol[index] + drink(index + 1, 2));
         result = Math.max(result, alchol[index] + drink(index + 2, 1));
+        
+        // 이 케이스 놓쳤었다.. 왜지? 계단 문제에서는 3칸 뛸 수 있는 것은 없었기 때문에..
         result = Math.max(result, alchol[index] + drink(index + 3, 1));
         
         return cache[index][count] = result;
