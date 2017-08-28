@@ -2,31 +2,34 @@ import java.util.*;
 import java.io.*;
 public class Main
 {
-    /**
-     * 가장 시간이 적게 걸리는 사람부터 먼저 choice.
-     */
-    public static int solve(int[] delay)
+    private static int[] cache;
+    private static final int M = 10007;
+    public static int solve(int n)
     {
-        Arrays.sort(delay);
-        int n = delay.length;
-        int time = 0;
-        int totalTime = 0;
-        for (int i = 0; i < n; i++)
-        {
-            time += delay[i];
-            totalTime += time;
-        }
-        return totalTime;
+        cache = new int[n+1];
+        Arrays.fill(cache, -1);
+        return tiling(n);
+    }
+
+    private static int tiling(int n)
+    {
+        if (n == 1)
+            return 1;
+        if (n == 2)
+            return 3;
+
+        if (cache[n] != -1)
+            return cache[n];
+
+        int result = (tiling(n-1) + 2 * tiling(n-2) % M) % M;
+        return cache[n] = result;
     }
 
     public static void main(String[] args)
     {
         In.init();
         int n = In.nextInt();
-        int[] delay = new int[n];
-        for (int i = 0; i < n; i++)
-            delay[i] = In.nextInt();
-        System.out.println(solve(delay));
+        System.out.println(solve(n));
     }
 
     private static class In
@@ -37,14 +40,6 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
-            // try
-            // {
-            //     br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
-            // }
-            // catch(Exception e)
-            // {
-            //     e.printStackTrace();
-            // }
         }
 
         public static String next()
