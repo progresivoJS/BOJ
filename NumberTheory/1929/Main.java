@@ -3,6 +3,10 @@ import java.io.*;
 
 public class Main
 {
+    private static boolean[] isPrime;
+    private static int MAX;
+
+    // slower
     public static boolean isPrime(int n)
     {
         if (n <= 1) return false;
@@ -16,14 +20,42 @@ public class Main
         return true;
     }
 
-    public static void main(String[] args)
+    // more faster
+    public static void eratosthenes()
+    {
+        isPrime[0] = isPrime[1] = false;
+
+        int sqrt = (int)Math.sqrt(MAX);
+        for (int i = 2; i <= sqrt; i++)
+            if (isPrime[i])
+                for (int j = i * i; j <= MAX; j += i)
+                    isPrime[j] = false;
+    }
+
+    public static void main(String[] args) throws IOException
     {
         In.init();
         int m = In.nextInt();
         int n = In.nextInt();
+        MAX = n;
+
+        isPrime = new boolean[MAX+1];
+        Arrays.fill(isPrime, true);
+
+        eratosthenes();
+
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+
         for (int i = m; i <= n; i++)
-            if (isPrime(i))
-                System.out.println(i);
+        {
+            if (isPrime[i])
+            {
+                out.write(String.valueOf(i)+"");
+                out.write("\n");
+            }
+        }
+
+        out.close();
     }
 
     private static class In
