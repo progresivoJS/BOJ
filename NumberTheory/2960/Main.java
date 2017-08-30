@@ -62,14 +62,6 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
-            try
-            {
-                br = new BufferedReader(new FileReader("/Users/rokaf/Documents/jinseong/Algo/src/data.txt"));
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
         }
 
         public static String next()
