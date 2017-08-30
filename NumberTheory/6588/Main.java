@@ -42,7 +42,7 @@ public class Main
         isPrime[2] = true;
 
         int sqrt = (int) Math.sqrt(M);
-        for (int i = 3; i <= sqrt; i += 2)
+        for (int i = 2; i <= sqrt; i += 2)
             if (isPrime[i])
                 for (int j = i * i; j <= M; j += i)
                     isPrime[j] = false;
