@@ -4,6 +4,7 @@ import java.io.*;
 /**
  * problem 1947
  * 선물 전달
+ * 완전순열 참조..
  * https://www.acmicpc.net/problem/1947
  * written by progresivoJS
  */
