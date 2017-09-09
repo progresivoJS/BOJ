@@ -2,24 +2,30 @@ import java.util.*;
 import java.io.*;
 
 /**
- * problem 11720
- * 숫자의 합
- * https://www.acmicpc.net/problem/11720
+ * problem 11721
+ * 열개씩 끊어 출력하기
+ * https://www.acmicpc.net/problem/11721
  * written by progresivoJS
  */
 public class Main
 {
+    public static void solve(String str)
+    {
+        int length = str.length();
+        
+        for (int i = 0; i < length; i += 10)
+            if (i + 10 < length)
+                System.out.println(str.substring(i, i + 10));
+            else
+                System.out.println(str.substring(i));
+    }
+    
     public static void main(String[] args)
     {
         In.init();
-        int n = In.nextInt();
-        String number = In.next();
+        String str = In.next();
         
-        int result = 0;
-        for (int i = 0; i < n; i++)
-            result += number.charAt(i) - '0';
-            
-        System.out.println(result);
+        solve(str);
     }
     
     private static class In
@@ -30,6 +36,14 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
+            try
+            {
+                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     
         public static String next()
