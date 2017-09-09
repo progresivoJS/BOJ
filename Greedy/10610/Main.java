@@ -28,7 +28,7 @@ public class Main
             return;
         }
         
-		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
         Arrays.sort(digits);
         for (int j = digits.length - 1; j >= 0; j--)
             out.write(digits[j]);
