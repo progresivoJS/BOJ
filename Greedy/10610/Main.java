@@ -1,35 +1,44 @@
 import java.util.*;
 import java.io.*;
+
+/**
+ * problem 10610
+ * 30
+ * https://www.acmicpc.net/problem/10610
+ * written by progresivoJS
+ */
 public class Main
 {
-    public static void solve(int n)
+    public static void solve(String n) throws IOException
     {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        int sum = 0;
-        while (n > 0)
-        {
-            int digit = n % 10;
-            list.add(digit);
-            sum += digit;
-            n /= 10;
-        }
+        char[] digits = n.toCharArray();
         
-        if (!list.contains(0) || ((sum % 3) != 0))
+        int digitSum = 0;
+        for (int i = 0; i < digits.length; i++)
+            digitSum += digits[i] - '0';
+            
+        int i;
+        for (i = 0; i < digits.length; i++)
+            if (digits[i] == '0')
+                break;
+        
+        if (i == digits.length || (digitSum % 3 != 0))
         {
             System.out.println(-1);
             return;
         }
-      
-        Integer[] digits = (Integer[]) list.toArray(new Integer[list.size()]);
+        
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
         Arrays.sort(digits);
-        for (int i = digits.length - 1; i >= 0; i--)
-            System.out.print(digits[i]);
+        for (int j = digits.length - 1; j >= 0; j--)
+            out.write(digits[j]);
+        out.close();
     }
     
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
         In.init();
-        int n = In.nextInt();
+        String n = In.next();
         solve(n);
     }
     
