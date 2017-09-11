@@ -1,6 +1,12 @@
 import java.util.*;
 import java.math.BigInteger;
 
+/**
+ * problem 13277
+ * 큰 수 곱셈
+ * https://www.acmicpc.net/problem/13277
+ * written by 13277
+ */
 public class Main
 { 
     public static void main(String[] args)
