@@ -10,3 +10,5 @@ M = 10 ^ k일 때, 주기 P 는 15 * 10^k-1 이다.
 
 즉, fibo(N) % M == fibo(N % p) % M.
 
+## 증명
+증명은 [wiki](https://en.wikipedia.org/wiki/Pisano_period) 참조
