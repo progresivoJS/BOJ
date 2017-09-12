@@ -2,55 +2,61 @@ import java.util.*;
 import java.io.*;
 
 /**
- * problem 2225
- * 합분해
- * https://www.acmicpc.net/problem/2225
+ * problem 11060
+ * 점프 점프
+ * https://www.acmicpc.net/problem/11060
  * written by progresivoJS on 2017.09.12
  */
 public class Main
 {
-    private static int n, k;
-    private static int[][] cache;
-    private static int M = 1000000000;
-    public static int solve(int n, int k)
+    private static int n;
+    private static int[] maze;
+    private static int[] cache;
+    
+    private static int INF = 987654321;
+    
+    public static void solve(int n, int[] maze)
     {
         Main.n = n;
-        Main.k = k;
+        Main.maze = maze;
         
-        cache = new int[k + 1][n + 1];
-        for (int i = 0; i < cache.length; i++)
-            Arrays.fill(cache[i], -1);
-                
+        cache = new int[n];
+        Arrays.fill(cache, -1);
         
-        int result = 0;
-        for (int i = 0; i <= n; i++)
-            result = (result + decompose(1, i)) % M;
-        return result;
+        int result = jump(0);
+        if (result != INF)
+            System.out.println(result);
+        else
+            System.out.println(-1);
     }
     
-    private static int decompose(int count, int sum)
+    /**
+     * index 에서 출발 할 때, 끝까지 도달할 수 있는 최소 점프의 수
+     */
+    private static int jump(int index)
     {
-        if (count == k && sum == n)
-            return 1;
-        if (count > k || sum > n)
+        if (index == n - 1)
             return 0;
+        if (index >= n)
+            return INF;
         
-        if (cache[count][sum] != -1)
-            return cache[count][sum];
+        if (cache[index] != -1)
+            return cache[index];
         
-        int result = 0;
-        for (int i = 0; i <= n; i++)
-            result = (result + decompose(count + 1, sum + i)) % M;
-        return cache[count][sum] = result;
+        int result = INF;
+        for (int i = 1; i <= maze[index]; i++)
+            result = Math.min(result, 1 + jump(index + i));
+        return cache[index] = result;
     }
     
     public static void main(String[] args)
     {
         In.init();
         int n = In.nextInt();
-        int k = In.nextInt();
-        
-        System.out.println(solve(n, k));
+        int[] maze = new int[n];
+        for (int i = 0; i < n; i++)
+            maze[i] = In.nextInt();
+        solve(n, maze);
     }
     
     private static class In
