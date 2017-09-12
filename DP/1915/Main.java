@@ -5,7 +5,7 @@ import java.io.*;
  * problem 1915
  * 가장 큰 정사각형
  * https://www.acmicpc.net/problem/1915
- * written by progresivoJS
+ * written by progresivoJS on 2017.09.12
  */
 public class Main
 {
