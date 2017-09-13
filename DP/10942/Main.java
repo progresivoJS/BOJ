@@ -11,15 +11,20 @@ public class Main
 {
     private static int[] seq;
     private static int[][] cache;
-    public static void solve(int n, int m, int[] seq, int[][] question)
+    public static void solve(int n, int m, int[] seq, int[][] question) throws IOException
     {
         Main.seq = seq;
         cache = new int[n][n];
         for (int i = 0; i < cache.length; i++)
             Arrays.fill(cache[i], -1);
         
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
         for (int i = 0; i < m; i++)
-            System.out.println(isPalindrome(question[i][0], question[i][1]));
+        {
+            out.write(String.valueOf(isPalindrome(question[i][0], question[i][1])));
+            out.write("\n");
+        }
+        out.close();
     }
     
     /**
@@ -42,7 +47,7 @@ public class Main
             return cache[from][to] = isPalindrome(from + 1, to - 1);
     }
     
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
         In.init();
         int n = In.nextInt();
