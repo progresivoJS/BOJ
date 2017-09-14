@@ -29,9 +29,9 @@ public class Main
                             out.write(String.valueOf(seq[k]));
                             out.write(" ");
                         }
+                    out.close();
                     return;
                 }
-        out.close();
     }
     
     private static int computeLength(int i, int j)
