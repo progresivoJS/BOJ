@@ -29,7 +29,7 @@ public class Main
         for (int i = 0; i < n; i++)
             result += sumCoins(i, coins[i]);
         
-        return result;
+        System.out.println(result);
     }
     
     // 현재까지의 동전의 가치 합이 sum이고 
@@ -54,7 +54,6 @@ public class Main
     public static void main(String[] args) throws IOException
     {
         In.init();
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
         int test = In.nextInt();
         for (int i = 0; i < test; i++)
         {
@@ -64,10 +63,8 @@ public class Main
                 coins[j] = In.nextInt();
             int m = In.nextInt();
             
-            out.write(String.valueOf(solve(coins, m)));
-            out.write("\n");
+            solve(coins, m);
         }
-        out.close();
     }
     
     private static class In
