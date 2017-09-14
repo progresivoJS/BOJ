@@ -23,7 +23,7 @@ public class Main
         for (int i = 0; i < cache.length; i++)
             for (int j = 0; j < cache[i].length; j++)
                 Arrays.fill(cache[i][j], -1);
-        System.out.println(eat(0, 0, 0));
+        System.out.println(Math.max(eat(0, 0, 0), eat(0, 1, 1)));
     }
     
     /**
@@ -70,6 +70,14 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
+            try
+            {
+                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     
         public static String next()
