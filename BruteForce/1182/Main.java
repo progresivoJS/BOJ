@@ -5,7 +5,7 @@ import java.io.*;
  * problem 1182
  * 부분집합의 합
  * https://www.acmicpc.net/problem/1182
- * written by progresivoJS
+ * written by progresivoJS on 2017.09.15
  */
 public class Main
 {

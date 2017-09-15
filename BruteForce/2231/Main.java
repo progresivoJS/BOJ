@@ -5,7 +5,7 @@ import java.io.*;
  * problem 2231
  * 분해합
  * https://www.acmicpc.net/problem/2231
- * written by progresivoJS
+ * written by progresivoJS on 2017.09.15
  */
 public class Main
 {

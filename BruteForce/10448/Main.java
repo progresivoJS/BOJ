@@ -5,7 +5,7 @@ import java.io.*;
  * problem 10448
  * 유레카 이론
  * https://www.acmicpc.net/problem/10448
- * written by progresivoJS
+ * written by progresivoJS on 2017.09.15
  */
 public class Main
 {
