@@ -26,7 +26,6 @@ public class Main
                 if (cut >= m)
                     break;
             }
-            
             if (cut < m)
                 hi = mid;
             else
