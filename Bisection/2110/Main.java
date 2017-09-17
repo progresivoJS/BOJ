@@ -2,27 +2,22 @@ import java.util.*;
 import java.io.*;
 
 /**
- * problem 2512
- * 예산
- * https://www.acmicpc.net/problem/2512
+ * problem 2110
+ * 공유기 설치
+ * https://www.acmicpc.net/problem/2110
  * written by progresivoJS on 2017.09.17
  */
 public class Main
 {
-    private static int n;
-    private static int[] budget;
-    private static int totalBudget;
-    private static void solve(int[] budget, int totalBudget)
+    private static int c;
+    private static int[] coords;
+    public static void solve(int c, int[] coords)
     {
-        Main.n = budget.length;
-        Main.budget = budget;
-        Main.totalBudget = totalBudget;
-        int max = 0;
-        for (int i = 0; i < n; i++)
-            max = Math.max(max, budget[i]);
-            
+        Main.c = c;
+        Main.coords = coords;
+        
         int lo = 0;
-        int hi = max;
+        int hi = 1000000000;
         
         while (lo < hi)
         {
@@ -35,32 +30,37 @@ public class Main
         
         System.out.println(lo);
     }
-        
+    
+    // 공유기 사이 최소 거리를 mid로 했을 때, C개의 공유기를 N개의 집에 설치할 수 있는가?
     private static boolean ok(int mid)
     {
-        int need = 0;
-        for (int i = 0; i < budget.length; i++)
-            if (budget[i] > mid)
-                need += mid;
-            else
-                need += budget[i];
+        int count = 0;
+        int j;
+        for (int i = 0; i < coords.length; i = j)
+        {
+            int restrict = coords[i] + mid;
+            count ++;
+            for (j = i + 1; j < coords.length; j++)
+                if (coords[j] >= restrict)
+                    break;
+        }
         
-        if (need > totalBudget)
-            return false;
-        else
+        if (count >= c)
             return true;
+        else
+            return false;
     }
     
     public static void main(String[] args)
     {
         In.init();
         int n = In.nextInt();
-        int[] budget = new int[n];
+        int c = In.nextInt();
+        int[] coords = new int[n];
         for (int i = 0; i < n; i++)
-            budget[i] = In.nextInt();
-        int totalBudget = In.nextInt();
-        
-        solve(budget, totalBudget);
+            coords[i] = In.nextInt();
+        Arrays.sort(coords);
+        solve(c, coords);
     }
     
     private static class In
