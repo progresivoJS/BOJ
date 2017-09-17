@@ -17,7 +17,7 @@ public class Main
         Main.coords = coords;
         
         int lo = 0;
-        int hi = 1000000000;
+        int hi = coords[coords.length - 1];
         
         while (lo < hi)
         {
@@ -34,15 +34,15 @@ public class Main
     // 공유기 사이 최소 거리를 mid로 했을 때, C개의 공유기를 N개의 집에 설치할 수 있는가?
     private static boolean ok(int mid)
     {
-        int count = 0;
-        int j;
-        for (int i = 0; i < coords.length; i = j)
+        int count = 1;
+        int before = coords[0];
+        for (int i = 1; i < coords.length; i++)
         {
-            int restrict = coords[i] + mid;
-            count ++;
-            for (j = i + 1; j < coords.length; j++)
-                if (coords[j] >= restrict)
-                    break;
+            if (coords[i] - before >= mid)
+            {
+                count ++;
+                before = coords[i];
+            }
         }
         
         if (count >= c)
