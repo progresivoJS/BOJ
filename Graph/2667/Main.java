@@ -5,7 +5,7 @@ import java.io.*;
  * problem 2667
  * 단지번호붙이기
  * https://www.acmicpc.net/problem/2667
- * written by progresivoJS on 2017.09.15
+ * written by progresivoJS on 2017.09.21
  */
 public class Main
 {
