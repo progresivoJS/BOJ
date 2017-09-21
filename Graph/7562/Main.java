@@ -4,9 +4,9 @@ import java.io.*;
 /**
  * problem 7562
  * 나이트의 이동
- * Point y, x 순서 잘 생각하자.
  * https://www.acmicpc.net/problem/7562
  * written by progresivoJS on 2017.09.21
+ * comment : Point y, x 순서 잘 생각하자.
  */
 public class Main
 {
