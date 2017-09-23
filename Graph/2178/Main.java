@@ -5,37 +5,62 @@ import java.io.*;
  * problem 2178
  * 미로탐색
  * https://www.acmicpc.net/problem/2178
- * written by progresivoJS on 2017.09.19
+ * written by progresivoJS on 2017.09.23
  */
 public class Main
 {
-    private static boolean[][] marked;
-    public static void solve(int[][] adj)
+    private static int n, m;
+    private static final int POSSIBLE = 1;
+    private static final int IMPOSSIBLE = 0;
+    private static final int[] dx = {1, 0, -1, 0};
+    private static final int[] dy = {0, 1, 0, -1};
+    public static void solve(int[][] map)
     {
-        int row = adj.length;
-        int col = adj[0].length;
+        n = map.length;
+        m = map[0].length;
         
-        int[][] dist = new int[row][col];
-        marked = new boolean[row][col];
-        bfs(adj, 0, 0);
+        bfs(map);
     }
     
-    private static void bfs(int[][] adj, int startRow, int startCol)
+    private static void bfs(int[][] map)
     {
-        Queue<Integer> rowQueue = new LinkedList<>();
-        Queue<Integer> colQueue = new LinkedList<>();
-        rowQueue.add(startRow);
-        colQueue.add(startCol);
+        map[0][0] = IMPOSSIBLE;
+        Point s = new Point(0, 0);
+        Queue<Point> q = new LinkedList<>();
+        q.add(s);
         
-        marked[startRow][startCol] = true;
-        
-        while (!rowQueue.isEmpty() && !colQueue.isEmpty())
+        int count = 1;
+        while (!q.isEmpty())
         {
-            int row = rowQueue.remove();
-            int col = colQueue.remove();
-            if (row + 1 )
-            if (!marked[row + 1][col])
-                rowQueue
+            int size = q.size();
+            while (size -- > 0)
+            {
+                Point v = q.poll();
+                int row = v.row;
+                int col = v.col;
+                
+                if (row == n - 1 && col == m - 1)
+                {
+                    System.out.println(count);
+                    return;
+                }
+                
+                for (int i = 0; i < 4; i++)
+                {
+                    int newRow = row + dx[i];
+                    int newCol = col + dy[i];
+                    
+                    if (newRow >= n || newRow < 0 || newCol >= m || newCol < 0)
+                        continue;
+                    if (map[newRow][newCol] == POSSIBLE)
+                    {
+                        map[newRow][newCol] = IMPOSSIBLE;
+                        q.add(new Point(newRow, newCol));
+                    }
+                }
+            }
+            
+            count ++;
         }
     }
     
@@ -44,15 +69,25 @@ public class Main
         In.init();
         int row = In.nextInt();
         int col = In.nextInt();
-        boolean[][] adj = new boolean[row][col];
+        int[][] map = new int[row][col];
         for (int i = 0; i < row; i++)
         {
             String str = In.next();
             for (int j = 0; j < col; j++)
-                adj[i][j] = str.charAt(j) == 1;
+                map[i][j] = str.charAt(j) - '0';
         }
         
-        solve(adj);
+        solve(map);
+    }
+    
+    public static class Point
+    {
+        int row, col;
+        public Point(int row, int col)
+        {
+            this.row = row;
+            this.col = col;
+        }
     }
     
     private static class In
