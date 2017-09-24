@@ -16,7 +16,7 @@ public class Main
     {
         n = map.length;
         int max = 0;
-        int min = 1000;
+        int min = 100;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
             {
@@ -87,14 +87,6 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
-            try
-            {
-                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
         }
     
         public static String next()
