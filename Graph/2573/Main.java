@@ -40,8 +40,7 @@ public class Main
                 System.out.println(0);
                 return;
             }
-            
-            if (count >= 2)
+            else if (count >= 2)
             {
                 System.out.println(day);
                 return;
