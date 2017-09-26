@@ -42,6 +42,8 @@ public class Main
             
             if (!alphabet[map[newRow][newCol]])
                 count = Math.max(count, 1 + dfs(map, newRow, newCol));
+            if (count >= 26)
+                return count;
         }
         
         alphabet[map[row][col]] = false;
