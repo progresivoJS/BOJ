@@ -19,7 +19,7 @@ public class Main
 
     private static int m, n;
 
-    public static void solve(int[][] map, LinkedList<Point> sources)
+    public static void solve(int[][] map, LinkedList<Point> fires, Point startPoint)
     {
         m = map.length;
         n = map[0].length;
@@ -27,29 +27,23 @@ public class Main
         // marked[PERSON][j][k] = PERSON이 j행 k열을 방문했습니까?
         // marked[FIRE][j][k] = FIRE가 j행 k열을 방문했습니까?
         boolean[][][] marked = new boolean[2][m][n];
-        bfs(map, sources, marked);
+        bfs(map, fires, marked, startPoint);
     }
 
-    private static void bfs(int[][] map, LinkedList<Point> sources, boolean[][][] marked)
+    private static void bfs(int[][] map, LinkedList<Point> fires, boolean[][][] marked, Point startPoint)
     {
         Queue<Point> q = new LinkedList<>();
 
         // 불 먼저 추가
-        for (Point s : sources)
-            if (!s.isPerson)
-            {
-                q.add(s);
-                marked[FIRE][s.row][s.col] = true;
-            }
+        for (Point s : fires)
+        {
+            q.add(s);
+            marked[FIRE][s.row][s.col] = true;
+        }
 
         // 사람 추가
-        for (Point s : sources)
-            if (s.isPerson)
-            {
-                q.add(s);
-                marked[PERSON][s.row][s.col] = true;
-            }
-
+        q.add(startPoint);
+        marked[PERSON][startPoint.row][startPoint.col] = true;
 
         int second = 1;
         while (!q.isEmpty())
@@ -99,7 +93,8 @@ public class Main
             int n = In.nextInt();
             int m = In.nextInt();
             int[][] map = new int[m][n];
-            LinkedList<Point> sources = new LinkedList<>();
+            LinkedList<Point> fires = new LinkedList<>();
+            Point startPoint = new Point(0, 0, true);
             for (int i = 0; i < m; i++)
             {
                 String str = In.next();
@@ -110,20 +105,20 @@ public class Main
                         map[i][j] = WALL;
                     else if (ch == '*')
                     {
-                        sources.add(new Point(i, j, false));
+                        fires.add(new Point(i, j, false));
                         map[i][j] = FIRE;
                     }
                     else if (ch == '@')
                     {
-                        sources.add(new Point(i, j, true));
+                        startPoint = new Point(i, j, true);
                         map[i][j] = PASSABLE;
                     }
-                    else if (ch == '.')
+                    else
                         map[i][j] = PASSABLE;
                 }
             }
 
-            solve(map, sources);
+            solve(map, fires, startPoint);
         }
     }
 
