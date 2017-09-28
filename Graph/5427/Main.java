@@ -2,9 +2,9 @@ import java.util.*;
 import java.io.*;
 
 /**
- * problem 4963
- * 섬의 개수
- * https://www.acmicpc.net/problem/4963
+ * problem 5427
+ * 불
+ * https://www.acmicpc.net/problem/5427
  * written by progresivoJS on 2017.09.28
  */
 public class Main
