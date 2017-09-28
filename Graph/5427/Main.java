@@ -18,6 +18,7 @@ public class Main
     private static final int[] dy = {0, 1, 0, -1};
 
     private static int m, n;
+    private static StringBuilder str;
 
     public static void solve(int[][] map, LinkedList<Point> fires, Point startPoint)
     {
@@ -64,7 +65,7 @@ public class Main
                             continue;
                         else
                         {
-                            System.out.println(second);
+                            str.append(second).append('\n');
                             return;
                         }
                     }
@@ -81,12 +82,13 @@ public class Main
 
             second ++;
         }
-        System.out.println("IMPOSSIBLE");
+        str.append("IMPOSSIBLE").append('\n');
     }
 
     public static void main(String[] args)
     {
         In.init();
+        str = new StringBuilder();
         int test = In.nextInt();
         while (test-- > 0)
         {
@@ -120,6 +122,8 @@ public class Main
 
             solve(map, fires, startPoint);
         }
+        
+        System.out.println(str.toString());
     }
 
     public static class Point
