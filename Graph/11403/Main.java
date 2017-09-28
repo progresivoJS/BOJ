@@ -5,54 +5,52 @@ import java.io.*;
  * problem 11403
  * 경로 찾기
  * https://www.acmicpc.net/problem/11403
- * written by progresivoJS on 2017.09.20
+ * written by progresivoJS on 2017.09.28
  */
 public class Main
 {
-    private static int count;
-    private static boolean[] marked;
-    private static boolean[][] hasPathTo;
-    public static void dfs(boolean[][] adj)
+    private static int n;
+    private static boolean[][] marked;
+    public static void solve(boolean[][] adj)
     {
-        int n = adj.length;
-        marked = new boolean[n];
-        hasPathTo = new boolean[n][n];
+        n = adj.length;
         
-        for (int v = 0; v < n; v++)
-            if (!marked[v])
-            {
-                dfs(adj, v);
-            }
-            
-        for (int row = 0; row < n; row++)
+        // marked[i][j] = i에서 출발했을 때, j까지 도달하는가?
+        marked = new boolean[n][n];
+        
+        for (int s = 0; s < n; s++)
+            for (int v = 0; v < n; v++)
+                if (!marked[s][v] && adj[s][v])
+                    dfs(adj, s, v);
+        
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < n; i++)
         {
-            for (int col = 0; col < n; col++)
-                System.out.print((hasPathTo[row][col] ? 1 : 0) + " ");
-            System.out.println();
+            for (int j = 0; j < n; j++)
+                str.append(marked[i][j] ? 1 : 0).append(' ');
+            str.append('\n');
         }
+        
+        System.out.println(str.toString());
     }
     
-    private static void dfs(boolean[][] adj, int v)
+    private static void dfs(boolean[][] adj, int s, int v)
     {
-        marked[v] = true;
-        for (int w = 0; w < adj.length; w++)
-            if (!marked[w] && adj[v][w])
-            {
-                hasPathTo[v][w] = true;
-                dfs(adj, w);
-            }
+        marked[s][v] = true;
+        for (int w = 0; w < n; w++)
+            if (adj[v][w] && !marked[s][w])
+                dfs(adj, s, w);
     }
     
     public static void main(String[] args)
     {
         In.init();
-        int n = In.nextInt(); // vertex 수
-        boolean[][] adj = new boolean[n][n];
+        int n = In.nextInt();
+        boolean[][] adj = new boolean[n][n]; // adj[i][j] = i에서 j로 가는 방향 edge가 있는가?
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
                 adj[i][j] = In.nextInt() == 1;
-                
-        dfs(adj);
+        solve(adj);
     }
     
     private static class In
