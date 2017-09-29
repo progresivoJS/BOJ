@@ -9,31 +9,30 @@ import java.io.*;
  */
 public class Main
 {
-    private static Deque<Integer> reversePostOrder;
-    private static boolean[] marked;
-    public static void solve(LinkedList<Integer>[] adj)
+    public static void solve(LinkedList<Integer>[] adj, int[] ind)
     {
-        reversePostOrder = new ArrayDeque<>();
-        marked = new boolean[adj.length];
+        int n = adj.length;
+        PriorityQueue<Integer> minPQ = new PriorityQueue<>();
+        int[] result = new int[n];
         
-        for (int v = adj.length - 1; v >= 0; v--)
-            if (!marked[v])
-                dfs(adj, v);
-                
-        StringBuilder str = new StringBuilder();
-        for (int i : reversePostOrder)
-            str.append(i + 1).append(' ');
+        for (int i = 0; i < n; i++)
+            if (ind[i] == 0)
+                minPQ.add(i);
+        
+        for (int i = 0; i < n; i++)
+        {
+            int v = minPQ.poll();
+            result[i] = v;
             
+            for (int w : adj[v])
+                if (--ind[w] == 0)
+                    minPQ.add(w);
+        }
+        
+        StringBuilder str = new StringBuilder();
+        for (int i : result)
+            str.append(i + 1).append(' ');
         System.out.println(str.toString());
-    }
-    
-    private static void dfs(LinkedList<Integer>[] adj, int v)
-    {
-        marked[v] = true;
-        for (int w : adj[v])
-            if (!marked[w])
-                dfs(adj, w);
-        reversePostOrder.push(v);
     }
     
     public static void main(String[] args)
@@ -41,12 +40,22 @@ public class Main
         In.init();
         int n = In.nextInt();
         int m = In.nextInt();
+        
         LinkedList<Integer>[] adj = (LinkedList<Integer>[]) new LinkedList[n];
         for (int i = 0; i < adj.length; i++)
             adj[i] = new LinkedList<>();
+        
+        int[] ind = new int[n];
+        
         for (int i = 0; i < m; i++)
-            adj[In.nextInt() - 1].add(In.nextInt() - 1);
-        solve(adj);
+        {
+            int from = In.nextInt() - 1;
+            int to = In.nextInt() - 1;
+            ind[to] ++;
+            adj[from].add(to);
+        }
+        
+        solve(adj, ind);
     }
     
     private static class In
