@@ -32,9 +32,7 @@ public class Main
                 return;
             }
             if (q.size() > 1)
-            {
                 multiple = true;
-            }
             
             int v = q.poll();
             result[i] = v + 'a';
