@@ -21,11 +21,12 @@ public class Main
                 if (ind[i] == 0)
                     q.add(i);
             }
-        
+            
         int[] result = new int[count];
         boolean multiple = false;
         for (int i = 0; i < count; i++)
         {
+            System.out.println("q size : " + q.size());
             if (q.isEmpty())
             {
                 System.out.println("!");
