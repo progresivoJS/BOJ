@@ -19,6 +19,7 @@ public class Main
                 q.add(i);
         
         int[] result = new int[n];
+        boolean multiple = false;
         for (int i = 0; i < n; i++)
         {
             if (q.isEmpty())
@@ -28,10 +29,7 @@ public class Main
             }
             
             if (q.size() > 1)
-            {
-                str.append("?").append('\n');
-                return;
-            }
+                multiple = true;
             
             int v = q.poll();
             result[i] = v + 1;
@@ -39,6 +37,12 @@ public class Main
             for (int w = 0; w < n; w++)
                 if (adj[v][w] && --ind[w] == 0)
                     q.add(w);
+        }
+        
+        if (multiple)
+        {
+            str.append('?').append('\n');
+            return;
         }
         
         for (int i = 0; i < n; i++)
