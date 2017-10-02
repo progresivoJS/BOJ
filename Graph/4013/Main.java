@@ -69,7 +69,11 @@ public class Main
         for (int i = 0; i < n; i++)
             if (isRestaurant[i])
                 max = Math.max(max, totalCash[i]);
-        System.out.println(max);
+        for (int i : totalCash)
+        {
+            System.out.println(i);
+        }
+        // System.out.println(max);
     }
     
     private static void nameSCCId(LinkedList<Integer>[] adj)
