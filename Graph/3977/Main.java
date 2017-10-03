@@ -6,7 +6,7 @@ import java.lang.*;
  * problem 3977
  * 축구 전술
  * https://www.acmicpc.net/problem/3977
- * written by progresivoJS on 2017.10.02
+ * written by progresivoJS on 2017.10.03
  */
 public class Main
 {
