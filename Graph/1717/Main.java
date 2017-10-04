@@ -61,6 +61,14 @@ public class Main
         return root;
     }
     
+    public static int find2(int p)
+    {
+        if (parent[p] == p)
+            return p;
+        parent[p] = find(parent[p]);
+        return parent[p];
+    }
+    
     public static void union(int p, int q)
     {
         int rootP = find(p);
