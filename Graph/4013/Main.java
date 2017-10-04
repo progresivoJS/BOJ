@@ -18,62 +18,65 @@ public class Main
         nameSCCId(adj);
         
         // make new SCC graph
-        LinkedList<Integer>[] newAdj = (LinkedList<Integer>[]) new LinkedList[count];
+        LinkedList<Integer>[] sccAdj = (LinkedList<Integer>[]) new LinkedList[count];
         for (int i = 0; i < count; i++)
-            newAdj[i] = new LinkedList<>();
+            sccAdj[i] = new LinkedList<>();
+        int[] ind = new int[count];
         
         for (int v = 0; v < n; v++)
             for (int w : adj[v])
-                if (id[v] != id[w]) // this line assures no parallel edges.
-                    newAdj[id[v]].add(id[w]);
+            {
+                if (id[v] == id[w]) continue;
+                sccAdj[id[v]].add(id[w]);
+                ind[id[w]]++;
+            }
         
         boolean[] newIsRestaurant = new boolean[count];
         for (int i = 0; i < n; i++)
             if (isRestaurant[i])
                 newIsRestaurant[id[i]] = true;
         
-        int[] newCash = new int[count];
+        int[] sCash = new int[count];
         for (int i = 0; i < n; i++)
-            newCash[id[i]] += cash[i];
+            sCash[id[i]] += cash[i];
         
         start = id[start];
         
-        bfs(newAdj, start, newIsRestaurant, newCash);
-    }
-    
-    private static void bfs(LinkedList<Integer>[] adj, int start, boolean[] isRestaurant, int[] cash)
-    {
-        int n = adj.length;
-        boolean[] marked = new boolean[n];
-        int[] totalCash = new int[n];
-        totalCash[start] = cash[start];
-        
+        // topological
         Queue<Integer> q = new LinkedList<>();
-        q.add(start);
+        
+        int[] totalCash = new int[count];
+        for (int i = 0; i < count; i++)
+        {
+            totalCash[i] = sCash[i];
+            if (ind[i] == 0)
+                q.add(i);
+        }
+        
+        boolean[] sMarked = new boolean[count];
+        sMarked[start] = true;
         
         while (!q.isEmpty())
         {
             int v = q.poll();
-            for (int w : adj[v])
+            for (int w : sccAdj[v])
             {
-                totalCash[w] = Math.max(totalCash[w], totalCash[v] + cash[w]);
-                if (!marked[w])
+                if (sMarked[v])
                 {
-                    q.add(w);
-                    marked[w] = true;
+                    totalCash[w] = Math.max(totalCash[w], totalCash[v] + sCash[w]);
+                    sMarked[w] = true;
                 }
+                if (--ind[w] == 0)
+                    q.add(w);
             }
         }
         
         int max = 0;
-        for (int i = 0; i < n; i++)
-            if (isRestaurant[i])
+        for (int i = 0; i < count; i++)
+            if (newIsRestaurant[i] && sMarked[i])
                 max = Math.max(max, totalCash[i]);
-        for (int i : totalCash)
-        {
-            System.out.println(i);
-        }
-        // System.out.println(max);
+                
+        System.out.println(max);
     }
     
     private static void nameSCCId(LinkedList<Integer>[] adj)
@@ -151,9 +154,7 @@ public class Main
         
         int[] cash = new int[n];
         for (int i = 0; i < n; i++)
-        {
             cash[i] = In.nextInt();
-        }
         
         int start = In.nextInt() - 1;
         int restCount = In.nextInt();
