@@ -5,7 +5,7 @@ import java.io.*;
  * problem 4195
  * 친구 네트워크
  * https://www.acmicpc.net/problem/4195
- * written by progresivoJS on 2017.10.02
+ * written by progresivoJS on 2017.10.09
  */
 public class Main
 {
