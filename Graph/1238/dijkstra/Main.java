@@ -32,9 +32,10 @@ public class Main
                 Pair top = pq.poll();
                 int v = top.index;
                 int cost = top.key;
-
+                
+                if (start != x && v == x) break;
                 if (dist[start][v] < cost) continue;
-
+                
                 for (Edge e : adj[v])
                     relax(start, e);
             }
@@ -119,6 +120,14 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
+            try
+            {
+                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         public static String next()
