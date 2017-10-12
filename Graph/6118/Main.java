@@ -5,7 +5,7 @@ import java.io.*;
  * problem 6118
  * 숨바꼭질
  * https://www.acmicpc.net/problem/6118
- * written by progresivoJS on 2017.10.11
+ * written by progresivoJS on 2017.10.12
  */
 public class Main
 {
