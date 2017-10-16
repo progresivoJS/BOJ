@@ -11,15 +11,51 @@ public class Main
 {
     private static int INF = 987654321;
     private static int[][] dist;
+    private static Edge[][] edgeTo;
     private static PriorityQueue<Node> pq;
     
     public static void solve(LinkedList<Edge>[] adj)
     {
         int n = adj.length;
         pq = new PriorityQueue<>();
-
+        
+        int[][] distance = dijkstra(adj);
+        
+        int[][] result = new int[n][n];
+        for (int s = 0; s < n; s++)
+            for (int t = 0; t < n; t++)
+            {
+                Edge e = edgeTo[s][t];
+                if (e != null)
+                    result[t][s] = e.from + 1;
+            }
+        
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j)
+                {
+                    str.append('-' + " ");
+                    continue;
+                }
+                str.append(result[i][j] + " ");
+            }
+            str.append('\n');
+        }
+        System.out.println(str);
+    }
+    
+    private static int[][] dijkstra(LinkedList<Edge>[] adj)
+    {
+        int n = adj.length;
+        
+        // edgeTo[s][v] = s에서의 최단경로에서, v 로 향하는 edge.
+        edgeTo = new Edge[n][n];
         // dist[i][j] = i에서 j까지 가는 최단거리.
         dist = new int[n][n];
+        
         for (int i = 0; i < n; i++)
             Arrays.fill(dist[i], INF);
 
@@ -33,22 +69,26 @@ public class Main
             {
                 int v = pq.peek().index;
                 int cost = pq.peek().key;
+                pq.poll();
                 if (dist[s][v] < cost) continue;
 
                 for (Edge e : adj[v])
-                    relax(e);
+                    relax(s, e);
             }
         }
+        
+        return dist;
     }
 
-    private static void relax(Edge e)
+    private static void relax(int s, Edge e)
     {
         int v = e.from;
         int w = e.to;
-        if (dist[w] > dist[v] + e.weight)
+        if (dist[s][w] > dist[s][v] + e.weight)
         {
-            dist[w] = dist[v] + e.weight;
-            pq.add(new Node(dist[w], w));
+            dist[s][w] = dist[s][v] + e.weight;
+            pq.add(new Node(dist[s][w], w));
+            edgeTo[s][w] = e;
         }
     }
     
@@ -110,7 +150,7 @@ public class Main
             br = new BufferedReader(new InputStreamReader(System.in));
             try
             {
-                br = new BufferedReader(new FileReader("/Users/rokaf/Desktop/data.txt"));
+                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
             }
             catch(Exception e)
             {
