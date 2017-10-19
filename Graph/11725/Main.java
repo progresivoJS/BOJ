@@ -37,7 +37,7 @@ public class Main
         
         StringBuilder str = new StringBuilder();
         for (int i = 1; i < n; i++)
-            str.append(parent[i] + 1).append('\n');
+            str.append(parent[i] + 1 + "\n");
         System.out.println(str);
     }
     
