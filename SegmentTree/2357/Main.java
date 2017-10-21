@@ -2,9 +2,9 @@ import java.util.*;
 import java.io.*;
 
 /**
- * problem 10868
- * 최소값
- * https://www.acmicpc.net/problem/10868
+ * problem 2357
+ * 최소값과 최대값
+ * https://www.acmicpc.net/problem/2357
  * written by progresivoJS on 2017.10.21
  */
 public class Main
@@ -14,9 +14,14 @@ public class Main
         In.init();
         int n = In.nextInt();
         int m = In.nextInt();
+        
         SegmentTree ST = new SegmentTree(n);
         for (int i = 0; i < n; i++)
-            ST.tree[ST.start + i] = In.nextInt();
+        {
+            int value = In.nextInt();
+            ST.minTree[ST.start + i] = value;
+            ST.maxTree[ST.start + i] = value;
+        }
         ST.construct();
         
         StringBuilder str = new StringBuilder();
@@ -24,21 +29,22 @@ public class Main
         {
             int a = In.nextInt() - 1;
             int b = In.nextInt() - 1;
-            str.append(ST.query(a, b)).append('\n');
+            str.append(ST.minQuery(a, b)).append(' ').append(ST.maxQuery(a, b)).append('\n');
         }
         System.out.println(str);
     }
     
-    private static class SegmentTree
+    public static class SegmentTree
     {
-        private static int INF = Integer.MAX_VALUE;
-        int[] tree;
+        int[] maxTree;
+        int[] minTree;
         int start;
         
         public SegmentTree(int n)
         {
             int height = (int)Math.ceil(Math.log(n) / Math.log(2)) + 1;
-            tree = new int[1 << height];
+            maxTree = new int[1 << height];
+            minTree = new int[1 << height];
             
             start = 1;
             while (start < n) start *= 2;
@@ -47,22 +53,38 @@ public class Main
         public void construct()
         {
             for (int i = start - 1; i >= 1; i--)
-                tree[i] = Math.min(tree[2 * i], tree[2 * i + 1]);
+            {
+                maxTree[i] = Math.max(maxTree[2 * i], maxTree[2 * i + 1]);
+                minTree[i] = Math.min(minTree[2 * i], minTree[2 * i + 1]);
+            }
         }
         
-        // find min in range [a, b].
-        public int query(int a, int b)
+        public int maxQuery(int a, int b)
         {
-            return query(a, b, 1, 0, start - 1);
+            return maxQuery(a, b, 1, 0, start - 1);
         }
         
-        private int query(int a, int b, int v, int na, int nb)
+        private int maxQuery(int a, int b, int v, int na, int nb)
         {
-            if (nb < a || na > b) return INF;
-            if (a <= na && nb <= b) return tree[v];
+            if (nb < a || b < na) return Integer.MIN_VALUE;
+            if (a <= na && nb <= b) return maxTree[v];
             
             int mid = (na + nb) / 2;
-            return Math.min(query(a, b, 2 * v, na, mid), query(a, b, 2 * v + 1, mid + 1, nb));
+            return Math.max(maxQuery(a, b, 2 * v, na, mid), maxQuery(a, b, 2 * v + 1, mid + 1, nb));
+        }
+        
+        public int minQuery(int a, int b)
+        {
+            return minQuery(a, b, 1, 0, start - 1);
+        }
+        
+        private int minQuery(int a, int b, int v, int na, int nb)
+        {
+            if (b < na || nb < a) return Integer.MAX_VALUE;
+            if (a <= na && b >= nb) return minTree[v];
+            
+            int mid = (na + nb) / 2;
+            return Math.min(minQuery(a, b, 2 * v, na, mid), minQuery(a, b, 2 * v + 1, mid + 1, nb));
         }
     }
     
