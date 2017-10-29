@@ -10,28 +10,23 @@ import java.io.*;
 public class Main
 {
     private static final int INF = 987654321;
-    private static int k;
     private static int n;
     
     private static StringBuilder str;
     
-    private static int[] cache;
-    
     private static void solve(String row, int k, int caseNumber)
     {
-        Main.k = k;
-        
         n = row.length();
         boolean[] array = new boolean[n];
         for (int i = 0; i < n; i++)
             if (row.charAt(i) == '+')
                 array[i] = true;
                 
-        int result = flip(array);
+        int result = flip(array, k);
         str.append("Case #").append(caseNumber).append(": ").append(result == INF ? "IMPOSSIBLE" : result).append('\n');
     }
     
-    private static int flip(boolean[] array)
+    private static int flip(boolean[] array, int k)
     {
         int n = array.length;
         
