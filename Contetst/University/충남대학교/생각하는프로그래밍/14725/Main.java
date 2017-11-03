@@ -14,25 +14,61 @@ public class Main
         In.init();
         int n = In.nextInt();
         
-        TreeMap<String, PriorityQueue<String>> map = new HashMap<>();
+        Node root = new Node();
         
         for (int i = 0; i < n; i++)
         {
-            int m = In.nextInt();
-            String key = In.next();
+            Node parent = root;
             
-            for (int j = 0; j < m - 1; j++)
+            int chain = In.nextInt();
+            for (int j = 0; j < chain; j++)
             {
-                String value = In.next();
-                if (!map.contains(key))
-                    map.put(key, new PriorityQueue<String>());
-                map.get(key).add(value);
-                
-                key = value;
+                Node child = new Node(In.next());
+                parent.children.put(child.value, child);
+                parent = child;
             }
         }
         
-        for ()
+        for (String child : root.children.keySet())
+        {
+            System.out.println(child);
+        }
+        
+        track(root);
+    }
+    
+    private static void track(Node parent)
+    {
+        if (parent.children.size() == 0)
+            return;
+        
+        for (Node child : parent.children.values())
+        {
+            System.out.println(child.value);
+            track(child);
+        }
+    }
+    
+    private static class Node implements Comparable<Node>
+    {
+        String value;
+        TreeMap<String, Node> children;
+        
+        public Node()
+        {
+            children = new TreeMap<>();
+        }
+        
+        public Node(String value)
+        {
+            this.value = value;
+            children = new TreeMap<>();
+        }
+        
+        public int compareTo(Node other)
+        {
+            return this.value.compareTo(other.value);
+        }
     }
     
     private static class In
