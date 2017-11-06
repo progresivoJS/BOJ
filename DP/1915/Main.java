@@ -5,7 +5,7 @@ import java.io.*;
  * problem 1915
  * 가장 큰 정사각형
  * https://www.acmicpc.net/problem/1915
- * written by progresivoJS on 2017.09.12
+ * written by progresivoJS on 2017.11.06
  */
 public class Main
 {
@@ -13,7 +13,7 @@ public class Main
     private static int[][] board;
     private static int[][] cache;
     
-    public static int solve(int n, int m, int[][] board)
+    public static void solve(int n, int m, int[][] board)
     {
         Main.n = n;
         Main.m = m;
@@ -23,44 +23,31 @@ public class Main
         for (int i = 0; i < cache.length; i++)
             Arrays.fill(cache[i], -1);
         
-        return computeArea(0, 0);
+        int result = -1;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                result = Math.max(result, computeArea(i, j));
+        System.out.println(result * result);
     }
     
     /**
-     * row, col 이 좌측 상단인 정사각형의 최대 넓이
+     * row, col 이 좌측 상단인 정사각형의 한변의 길이
      */
     private static int computeArea(int row, int col)
     {
         if (row >= n || col >= m)
             return 0;
+        if (row == n - 1 || col == m - 1)
+            return board[row][col];
         
         if (cache[row][col] != -1)
             return cache[row][col];
         
-        int side = Math.min(n - row, m - col);
-        int area = 0;
-        for (int i = 1; i <= side; i++)
-            if (isSquare(i, row, col))
-                area = Math.max(area, i * i);
-            else
-                break;
-                
-        if (area == side * side)
-            return cache[row][col] = area;
+        int result = board[row][col];
+        if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row + 1][col] == 1 && board[row + 1][col + 1] == 1)
+            result = 1 + Math.min(computeArea(row + 1, col + 1), Math.min(computeArea(row + 1, col), computeArea(row, col + 1)));
         
-        area = Math.max(area, computeArea(row + 1, col));
-        area = Math.max(area, computeArea(row, col + 1));
-        
-        return cache[row][col] = area;
-    }
-    
-    private static boolean isSquare(int side, int row, int col)
-    {
-        for (int i = 0; i < side; i++)
-            for (int j = 0; j < side; j++)
-                if (board[row + i][col + j] != 1)
-                    return false;
-        return true;
+        return cache[row][col] = result;
     }
     
     public static void main(String[] args)
@@ -77,7 +64,7 @@ public class Main
                 board[i][j] = line.charAt(j) - '0';
         }
         
-        System.out.println(solve(n, m, board));
+        solve(n, m, board);
     }
     
     private static class In
@@ -88,14 +75,6 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
-            try
-            {
-                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
         }
     
         public static String next()
