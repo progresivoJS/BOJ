@@ -19,7 +19,7 @@ public class Main
         
         PriorityQueue<Edge> pq = new PriorityQueue<>();
         for (int i = 0; i < n; i++)
-            for (int j = i + 1; j < n; j++)
+            for (int j = 0; j < n; j++)
             {
                 Edge e = new Edge(i, j, points[i].distTo(points[j]));
                 pq.add(e);
@@ -102,7 +102,13 @@ public class Main
         
         public int compareTo(Edge other)
         {
-            return (int)(this.weight - other.weight);
+            double diff = this.weight - other.weight;
+            if (diff < 0)
+                return -1;
+            else if (diff > 0)
+                return 1;
+            else
+                return 0;
         }
     }
     
@@ -131,14 +137,6 @@ public class Main
         public static void init()
         {
             br = new BufferedReader(new InputStreamReader(System.in));
-            try
-            {
-                br = new BufferedReader(new FileReader("/home/ubuntu/workspace/data.txt"));
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
         }
     
         public static String next()
