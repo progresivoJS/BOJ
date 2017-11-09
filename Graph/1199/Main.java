@@ -17,6 +17,21 @@ public class Main
         Main.adj = adj;
         n = adj.length;
 
+        boolean[] marked = new boolean[n];
+        int count = 0;
+        for (int v = 0; v < n; v++)
+            if (!marked[v])
+            {
+                int size = dfs(marked, v);
+                if (size > 1)
+                    if (++count > 1)
+                    {
+                        System.out.println(-1);
+                        return;
+                    }
+            }
+
+
         LinkedList<Integer> circuit = new LinkedList<>();
         getEulerCircuit(0, circuit);
 
@@ -25,6 +40,16 @@ public class Main
             str.append(i + 1).append(' ');
         str.append('\n');
         System.out.println(str);
+    }
+
+    private static int dfs(boolean[] marked, int v)
+    {
+        int size = 1;
+        marked[v] = true;
+        for (int w = 0; w < n; w++)
+            if (adj[v][w] == 1 && !marked[w])
+                size += dfs(marked, w);
+        return size;
     }
 
     public static void getEulerCircuit(int v, LinkedList<Integer> circuit)
